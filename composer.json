@@ -1,0 +1,28 @@
+{
+    "name": "upfor/upforphp",
+    "type": "library",
+    "description": "Upfor PHP Framework",
+    "keywords": ["framework", "api"],
+    "homepage": "https://github.com/upfor/upforphp",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Upfor Club",
+            "email": "team@upfor.club",
+            "homepage": "http://upfor.club"
+        },
+        {
+            "name": "Shocker Li",
+            "email": "shockerli@upfor.club",
+            "homepage": "http://shockerli.net"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Upfor\\": "src/"
+        }
+    }
+}

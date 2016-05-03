@@ -1,0 +1,13 @@
+source:
+    - ./src
+
+destination: ./docs
+templateTheme: "bootstrap"
+title: "Upfor Framework Documentation"
+tree: true
+charset:
+    - UTF-8
+accessLevels:
+    - public
+    - protected
+    - private
