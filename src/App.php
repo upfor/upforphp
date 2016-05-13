@@ -287,8 +287,10 @@ class App {
      * @return void
      */
     public function run() {
+        ini_set('display_errors', 0);
         if ($this->settings['debug']) {
-            error_reporting(0);
+            error_reporting(-1);
+            ini_set('display_startup_errors', true);
             $this->error->isDisplay(true);
         }
 

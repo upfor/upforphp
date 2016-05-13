@@ -13,6 +13,7 @@ namespace Upfor\Exception;
 
 use Exception;
 use ErrorException;
+use Upfor\Exception\Logger;
 
 /**
  * Error
@@ -58,11 +59,9 @@ class Error {
     }
 
     public function handleError($errno, $errstr = '', $errfile = '', $errline = '') {
-        if (!(error_reporting() & $errno)) {
-            return;
+        if (error_reporting() & $errno) {
+            throw new ErrorException($errstr, $errno, Logger::ERROR, $errfile, $errline);
         }
-
-        throw new ErrorException($errstr, $errno, 0, $errfile, $errline);
     }
 
     public function handleException(Exception $e) {
@@ -78,7 +77,15 @@ class Error {
     public function handleFatalError() {
         $lastError = error_get_last();
         if ($lastError) {
-            throw new ErrorException('Fatal Error (' . self::codeToString($lastError['type']) . '): ' . $lastError['message'], $lastError['type'], 0, $lastError['file'], $lastError['line']);
+            $message = 'Fatal Error (' . self::codeToString($lastError['type']) . '): ' . $lastError['message'];
+            $e = new ErrorException($message, $lastError['type'], Logger::ERROR, $lastError['file'], $lastError['line']);
+            $this->logger->log(
+                    $e->getCode() && isset(Logger::$levels[$e->getCode()]) ? $e->getCode() : Logger::ERROR, sprintf('%s: "%s" at %s line %s', get_class($e), $e->getMessage(), $e->getFile(), $e->getLine())
+            );
+
+            if ($this->display) {
+                self::halt($e);
+            }
         }
     }
 
