@@ -1,4 +1,4 @@
-# Upfor Framework
+# [Upfor Framework](http://framework.upfor.club)
 Upfor is a simple, extensible framework for PHP. Upfor can help you quickly build simple yet powerful web applications.
 
 ## Installation
@@ -64,9 +64,12 @@ Finaly, run the application.
 $app->run();
 ```
 
+> If you are not using the Composer, you must manually require the helpers:
+> `require ROOT . '/src/Helper/helpers.php';`
+
 
 ## Requirements
-Upfor requires PHP 5.3 or greater.
+Upfor requires PHP 5.4.0 or greater.
 
 ## License
 Upfor Framework is released under the MIT license.

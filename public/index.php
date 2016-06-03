@@ -4,13 +4,14 @@ define("DS", DIRECTORY_SEPARATOR);
 define("ROOT", dirname(realpath(__DIR__)));
 
 // Use composer
-//require ROOT . '/vendor/autoload.php';
+require ROOT . '/vendor/autoload.php';
 
 // Or custom autoloader
-require ROOT . '/src/Autoloader.php';
-$autoloader = new \Upfor\Autoloader();
-$autoloader->addNamespace('Upfor\\', ROOT . '/src/');
-$autoloader->register();
+//require ROOT . '/src/Helper/helpers.php';
+//require ROOT . '/src/Autoloader.php';
+//$autoloader = new \Upfor\Autoloader();
+//$autoloader->addNamespace('Upfor\\', ROOT . '/src/');
+//$autoloader->register();
 
 $app = new \Upfor\App();
 

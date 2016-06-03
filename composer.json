@@ -1,28 +1,31 @@
 {
-    "name": "upfor/upforphp",
-    "type": "library",
-    "description": "Upfor PHP Framework",
-    "keywords": ["framework", "api"],
-    "homepage": "https://github.com/upfor/upforphp",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Upfor Club",
-            "email": "team@upfor.club",
-            "homepage": "http://upfor.club"
-        },
-        {
-            "name": "Shocker Li",
-            "email": "shockerli@upfor.club",
-            "homepage": "http://shockerli.net"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.9"
+  "name": "upfor/upforphp",
+  "type": "library",
+  "description": "Upfor PHP Framework",
+  "keywords": ["framework", "api", "php", "upfor"],
+  "homepage": "https://github.com/upfor/upforphp",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Upfor Club",
+      "email": "team@upfor.club",
+      "homepage": "http://upfor.club"
     },
-    "autoload": {
-        "psr-4": {
-            "Upfor\\": "src/"
-        }
+    {
+      "name": "Shocker Li",
+      "email": "shockerli@upfor.club",
+      "homepage": "http://shockerli.net"
     }
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "autoload": {
+    "files": [
+      "src/Helper/helpers.php"
+    ],
+    "psr-4": {
+      "Upfor\\": "src/"
+    }
+  }
 }

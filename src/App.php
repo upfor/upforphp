@@ -31,7 +31,7 @@ class App {
     /**
      * @const string
      */
-    const VERSION = '0.0.1';
+    const VERSION = '0.0.3';
 
     /**
      * @var Container
@@ -41,7 +41,7 @@ class App {
     /**
      * @var array[\Upfor\App]
      */
-    protected static $apps = array();
+    protected static $apps = [];
 
     /**
      * @var string Current app name
@@ -63,11 +63,22 @@ class App {
      * 
      * @param array $settings
      */
-    public function __construct($settings = array()) {
+    public function __construct($settings = []) {
         // Setup IoC container
         $this->container = new Container();
-        $this->container['settings'] = array_merge(static::getDefaultSettings(), $settings);
+        $this->container['settings'] = array_merge(static::getDefaultSettings(), $settings);        
+        $this->registerDefaultService();
 
+        // Make default if first instance
+        if (is_null(static::getInstance())) {
+            $this->setName('default');
+        }
+    }
+    
+    /**
+     * Register default services
+     */
+    protected function registerDefaultService() {
         // Default request
         $this->container->singleton('request', function($c) {
             return new Request();
@@ -112,11 +123,6 @@ class App {
 
             return $error;
         });
-
-        // Make default if first instance
-        if (is_null(static::getInstance())) {
-            $this->setName('default');
-        }
     }
 
     /**
@@ -346,7 +352,7 @@ class App {
      */
     public function map(array $methods, $pattern, $callback) {
         if ($callback instanceof Closure) {
-            $callback = $callback->bindTo($this->container);
+            $callback = $callback->bindTo($this);
         }
 
         $route = $this->router->map($methods, $pattern, $callback);
