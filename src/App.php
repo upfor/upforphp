@@ -13,7 +13,6 @@ namespace Upfor;
 
 use Closure;
 use Exception;
-use Upfor\View;
 use Upfor\Helper\Container;
 use Upfor\Http\Request;
 use Upfor\Http\Response;
@@ -66,7 +65,7 @@ class App {
     public function __construct($settings = []) {
         // Setup IoC container
         $this->container = new Container();
-        $this->container['settings'] = array_merge(static::getDefaultSettings(), $settings);        
+        $this->container['settings'] = array_merge(static::getDefaultSettings(), $settings);
         $this->registerDefaultService();
 
         // Make default if first instance
@@ -74,7 +73,7 @@ class App {
             $this->setName('default');
         }
     }
-    
+
     /**
      * Register default services
      */
@@ -92,16 +91,6 @@ class App {
         // Default router
         $this->container->singleton('router', function($c) {
             return new Router($c['request']);
-        });
-
-        // Default view
-        $this->container->singleton('view', function ($c) {
-            $viewClass = $c['settings']['view'];
-            $templatesPath = $c['settings']['templates.path'];
-
-            $view = ($viewClass instanceOf View) ? $viewClass : new $viewClass;
-            $view->setTemplatesDirectory($templatesPath);
-            return $view;
         });
 
         // Default log writer
@@ -142,11 +131,8 @@ class App {
         return array(
             // Debugging
             'debug' => true,
-            // View
-            'templates.path' => './templates',
-            'view' => '\Upfor\View',
             // Logging
-            'log.writer' => array('writer' => '\Upfor\Exception\FileLogWriter', 'settings' => array()),
+            'log.writer' => ['writer' => '\Upfor\Exception\FileLogWriter', 'settings' => []],
             'log.enabled' => true,
             // Cookies
             'cookies.expires' => '30 minutes',
@@ -262,17 +248,6 @@ class App {
      */
     public function getName() {
         return $this->name;
-    }
-
-    /**
-     * Render a template
-     *
-     * @param  string $template The name of the template passed into the view's render() method
-     * @param  array  $data     Associative array of data made available to the view
-     */
-    public function render($template, array $data = array()) {
-        $this->view->replace($data);
-        $this->view->display($template);
     }
 
     /**
