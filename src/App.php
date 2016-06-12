@@ -23,14 +23,14 @@ use Upfor\Exception\Logger;
 use Upfor\Exception\Error;
 
 /**
- * App
+ * App engine
  */
 class App {
 
     /**
      * @const string
      */
-    const VERSION = '0.0.3';
+    const VERSION = '0.0.4';
 
     /**
      * @var Container
