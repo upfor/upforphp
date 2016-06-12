@@ -30,7 +30,7 @@ class App {
     /**
      * @const string
      */
-    const VERSION = '0.0.4';
+    const VERSION = '0.0.5';
 
     /**
      * @var Container
@@ -287,6 +287,7 @@ class App {
                     $dispatched = $route->dispatch($this);
                     $this->applyHook('upfor.after.dispatch');
                     if ($dispatched) {
+                        $this->router->setCurrentRoute($route);
                         break;
                     }
                 } catch (Exception $e) {

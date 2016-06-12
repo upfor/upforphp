@@ -40,6 +40,12 @@ class Router {
      */
     protected $supportMethods = array();
 
+    /**
+     *
+     * @var object \Upfor\Http\Route
+     */
+    protected $currentRoute = null;
+
     public function __construct(Request $request) {
         //Get support methods from Request
         $requestReflection = new ReflectionClass($request);
@@ -118,6 +124,14 @@ class Router {
         }
 
         return $this->matchedRoutes;
+    }
+
+    public function setCurrentRoute(Route $route) {
+        $this->currentRoute = $route;
+    }
+
+    public function getCurrentRoute() {
+        return $this->currentRoute;
     }
 
 }
