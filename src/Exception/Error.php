@@ -78,14 +78,8 @@ class Error {
         $lastError = error_get_last();
         if ($lastError) {
             $message = 'Fatal Error (' . self::codeToString($lastError['type']) . '): ' . $lastError['message'];
-            $e = new ErrorException($message, $lastError['type'], Logger::ERROR, $lastError['file'], $lastError['line']);
-            $this->logger->log(
-                    $e->getCode() && isset(Logger::$levels[$e->getCode()]) ? $e->getCode() : Logger::ERROR, sprintf('%s: "%s" at %s line %s', get_class($e), $e->getMessage(), $e->getFile(), $e->getLine())
-            );
-
-            if ($this->display) {
-                self::halt($e);
-            }
+            $exception = new ErrorException($message, $lastError['type'], Logger::ERROR, $lastError['file'], $lastError['line']);
+            $this->handleException($exception);
         }
     }
 
