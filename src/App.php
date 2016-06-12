@@ -283,6 +283,7 @@ class App {
 
             foreach ($matchedRoutes as $route) {
                 try {
+                    $this->router->setCurrentRoute($route);
                     $this->applyHook('upfor.before.dispatch');
                     $dispatched = $route->dispatch($this);
                     $this->applyHook('upfor.after.dispatch');
