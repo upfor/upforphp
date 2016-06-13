@@ -30,7 +30,7 @@ class App {
     /**
      * @const string
      */
-    const VERSION = '0.0.5';
+    const VERSION = '0.0.7';
 
     /**
      * @var Container
@@ -79,35 +79,35 @@ class App {
      */
     protected function registerDefaultService() {
         // Default request
-        $this->container->singleton('request', function($c) {
+        $this->singleton('request', function($c) {
             return new Request();
         });
 
         // Default response
-        $this->container->singleton('response', function($c) {
+        $this->singleton('response', function($c) {
             return new Response();
         });
 
         // Default router
-        $this->container->singleton('router', function($c) {
+        $this->singleton('router', function($c) {
             return new Router($c['request']);
         });
 
         // Default log writer
-        $this->container->singleton('logWriter', function ($c) {
+        $this->singleton('logWriter', function ($c) {
             $logWriter = new $c['settings']['log.writer']['writer']($c['settings']['log.writer']['settings']);
             return is_object($logWriter) && ($logWriter instanceof LogWriterInterface) ? $logWriter : new FileLogWriter($c['settings']['log.writer']['settings']);
         });
 
         // Default log
-        $this->container->singleton('logger', function($c) {
+        $this->singleton('logger', function($c) {
             $logger = new Logger($c['logWriter']);
             $logger->setEnabled($c['settings']['log.enabled']);
 
             return $logger;
         });
 
-        $this->container->singleton('error', function($c) {
+        $this->singleton('error', function($c) {
             $error = new Error($c['logger']);
 
             return $error;
@@ -450,7 +450,11 @@ class App {
      * @param  Closure        The closure that defines the object
      * @return mixed
      */
-    public function singleton($key, $value) {
+    public function singleton($key, $value = null) {
+        if (is_null($value) && $this->container->has($key)) {
+            return $this->container->get($key);
+        }
+        
         return $this->container->singleton($key, $value);
     }
 
