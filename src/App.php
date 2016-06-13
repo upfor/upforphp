@@ -13,6 +13,7 @@ namespace Upfor;
 
 use Closure;
 use Exception;
+use Upfor\Helper\Collection;
 use Upfor\Helper\Container;
 use Upfor\Http\Request;
 use Upfor\Http\Response;
@@ -65,7 +66,7 @@ class App {
     public function __construct($settings = []) {
         // Setup IoC container
         $this->container = new Container();
-        $this->container['settings'] = array_merge(static::getDefaultSettings(), $settings);
+        $this->container['settings'] = new Collection(array_merge(static::getDefaultSettings(), $settings));
         $this->registerDefaultService();
 
         // Make default if first instance
@@ -454,7 +455,7 @@ class App {
         if (is_null($value) && $this->container->has($key)) {
             return $this->container->get($key);
         }
-        
+
         return $this->container->singleton($key, $value);
     }
 
