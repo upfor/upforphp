@@ -283,21 +283,16 @@ class App {
             $matchedRoutes = $this->router->getMatchedRoutes($this->request->getMethod(), $this->request->getPathInfo());
 
             foreach ($matchedRoutes as $route) {
-                try {
-                    $this->router->setCurrentRoute($route);
-                    $this->applyHook('upfor.before.dispatch');
-                    $dispatched = $route->dispatch($this);
-                    $this->applyHook('upfor.after.dispatch');
-                    if ($dispatched) {
-                        $this->router->setCurrentRoute($route);
-                        break;
-                    }
-                } catch (Exception $e) {
-                    continue;
+                $this->router->setCurrentRoute($route);
+                $this->applyHook('upfor.before.dispatch');
+                $dispatched = $route->dispatch($this);
+                $this->applyHook('upfor.after.dispatch');
+                if ($dispatched !== false) {
+                    break;
                 }
             }
 
-            if (!$dispatched) {
+            if ($dispatched === false) {
                 echo 'Page Not Found';
                 $this->response->status(404);
             }
@@ -453,7 +448,7 @@ class App {
      */
     public function singleton($key, $value = null) {
         if (is_null($value) && $this->container->has($key)) {
-            return $this->container->get($key);
+            return $this->container[$key];
         }
 
         return $this->container->singleton($key, $value);
